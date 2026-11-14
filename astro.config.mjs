@@ -6,8 +6,8 @@ import tailwindcss from '@tailwindcss/vite';
 // If a custom domain is connected later, change `site` to that domain
 // and remove `base` (the site will then live at the domain root).
 export default defineConfig({
-  site: 'https://claytonhgardner.github.io',
-  base: '/portfolio',
+  site: 'https://clayton-gardner.com',
+  // base: '/portfolio',
   trailingSlash: 'ignore',
   vite: {
     plugins: [tailwindcss()],
