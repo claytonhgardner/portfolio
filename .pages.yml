@@ -1,0 +1,132 @@
+# Pages CMS configuration: https://pagescms.org/docs/configuration/
+# Edit the site at https://app.pagescms.org (sign in with GitHub).
+# Saving in the CMS commits to GitHub, and the site redeploys in a minute or two.
+
+media:
+  input: src/assets/images
+  output: /src/assets/images
+  categories: [image]
+
+content:
+  - name: site
+    label: Site info
+    type: file
+    path: src/content/site/index.md
+    format: yaml-frontmatter
+    fields:
+      - { name: name, label: Name, type: string, required: true }
+      - { name: title, label: Job title, type: string, required: true }
+      - { name: location, label: Location (full), type: string, required: true }
+      - { name: locationShort, label: Location (short), type: string, description: "Used in the closing section, e.g. Richmond, VA" }
+      - { name: email, label: Email, type: string, required: true }
+      - { name: phone, label: Phone, type: string }
+      - { name: linkedin, label: LinkedIn URL, type: string }
+      - { name: resume, label: Resume URL, type: string, description: "Link to the resume (Google Doc, PDF, etc.)" }
+      - { name: bio, label: Bio, type: text, required: true }
+      - name: headline
+        label: Headline
+        description: "Big statement in the About section. Bold word + the rest of the line."
+        type: object
+        list: true
+        fields:
+          - { name: strong, label: Bold word, type: string }
+          - { name: rest, label: Rest of line, type: string }
+      - { name: capabilities, label: Core capabilities, type: string, list: true }
+      - name: skillGroups
+        label: Tools & expertise
+        type: object
+        list:
+          collapsible:
+            summary: "{heading}"
+        fields:
+          - { name: heading, label: Group heading, type: string }
+          - { name: skills, label: Skills, type: string, list: true }
+      - { name: closingHeadline, label: Closing headline, type: string, required: true }
+      - { name: closingText, label: Closing text, type: text }
+      - { name: seoDescription, label: Search engine description, type: text, required: true, description: "One or two sentences shown in Google results and link previews." }
+
+  - name: projects
+    label: Projects
+    type: collection
+    path: src/content/projects
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      primary: title
+      fields: [title, order, layout, hidden]
+      sort: [order, title]
+      default:
+        sort: order
+        order: asc
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - name: order
+        label: Order on page
+        type: number
+        description: "Lower numbers appear first (e.g. 10, 20, 30)."
+      - name: hidden
+        label: Hide from site
+        type: boolean
+        description: "Turn on to keep a project as a draft."
+      - name: layout
+        label: Layout
+        type: select
+        description: "Case study = images on the left with Challenge / Role / Solution on the right. Gallery = a grid of items, each with images and a caption."
+        options:
+          values:
+            - { name: case-study, label: Case study }
+            - { name: gallery, label: Gallery }
+      - { name: label, label: Tab label, type: string, description: "The small tab at the top, e.g. Case Study, Digital Campaigns" }
+      - { name: subtitle, label: Subtitle, type: string, description: "Case study only" }
+      - { name: tagline, label: Tagline, type: string, description: "Case study only, e.g. Brand Concept" }
+      - name: images
+        label: Images (case study)
+        type: object
+        list:
+          collapsible:
+            summary: "{alt}"
+        fields:
+          - { name: image, label: Image, type: image, required: true }
+          - name: alt
+            label: Image description (alt text)
+            type: string
+            required: true
+            description: "Describe the image for people who can't see it, e.g. 'Trade show booth with blue hexagon walls'."
+      - name: sections
+        label: Text sections (case study)
+        type: object
+        list:
+          collapsible:
+            summary: "{heading}"
+        fields:
+          - { name: heading, label: Heading, type: string, description: "e.g. Challenge, My Role, Solution" }
+          - { name: text, label: Text, type: text }
+      - name: details
+        label: Detail panel (case study, optional)
+        description: "Adds a second panel below the case study, like the Canare wordmark / symbol / color / pattern page."
+        type: object
+        list:
+          collapsible:
+            summary: "{heading}"
+        fields:
+          - { name: heading, label: Heading, type: string }
+          - { name: text, label: Text, type: text }
+          - { name: image, label: Image, type: image }
+          - { name: alt, label: Image description (alt text), type: string }
+          - { name: colors, label: Color swatches (hex codes), type: string, list: true, description: "Optional, e.g. #1f3d42" }
+      - name: items
+        label: Gallery items (gallery)
+        type: object
+        list:
+          collapsible:
+            summary: "{title}"
+        fields:
+          - { name: title, label: Title, type: string }
+          - { name: text, label: Caption, type: text }
+          - name: images
+            label: Images
+            type: object
+            list: true
+            fields:
+              - { name: image, label: Image, type: image, required: true }
+              - { name: alt, label: Image description (alt text), type: string, required: true }

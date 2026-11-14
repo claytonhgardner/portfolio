@@ -1,0 +1,28 @@
+---
+import Monogram from './Monogram.astro';
+import ContactLinks from './ContactLinks.astro';
+import type { CollectionEntry } from 'astro:content';
+interface Props { site: CollectionEntry<'site'>['data'] }
+const { site } = Astro.props;
+const [first, ...rest] = site.name.split(' ');
+---
+<section id="top" class="sheet grid lg:min-h-[34rem] lg:grid-cols-[1.15fr_1fr]" aria-labelledby="hero-name">
+  <div class="chevron-frame min-w-0">
+    <div class="chevron flex h-full items-center justify-center bg-teal px-8 pt-10 lg:py-12 lg:pl-16">
+      <Monogram class="h-48 w-auto text-cream drop-shadow-[0_8px_18px_rgba(0,0,0,0.18)] sm:h-60 lg:h-[24rem]" shade={0.12} />
+    </div>
+  </div>
+  <div class="relative flex flex-col justify-between gap-10 px-6 pb-10 pt-8 sm:px-10 lg:items-end lg:py-14 lg:pr-14 lg:text-right">
+    <Monogram class="pointer-events-none absolute left-[6%] bottom-[12%] hidden h-44 w-auto text-white/25 lg:block" shade={0} />
+    <div class="relative">
+      <h1 id="hero-name" class="text-5xl font-bold uppercase leading-[0.95] tracking-wide text-ink sm:text-6xl">
+        {first}<br />{rest.join(' ')}
+      </h1>
+      <p class="mt-4 text-xl font-bold text-teal">{site.title}</p>
+    </div>
+    <div class="relative">
+      <p class="mb-2 text-base font-medium">{site.location}</p>
+      <ContactLinks email={site.email} phone={site.phone} linkedin={site.linkedin} resume={site.resume} class="lg:[&_li]:justify-end" />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,25 @@
+---
+import Monogram from './Monogram.astro';
+import ContactLinks from './ContactLinks.astro';
+import type { CollectionEntry } from 'astro:content';
+interface Props { site: CollectionEntry<'site'>['data'] }
+const { site } = Astro.props;
+---
+<section id="contact" class="sheet grid lg:min-h-[34rem] lg:grid-cols-[1fr_1.25fr]" aria-labelledby="contact-heading">
+  <div class="chevron-frame min-w-0">
+    <div class="chevron flex h-full items-center justify-center bg-teal px-8 pt-10 lg:py-12 lg:pl-12">
+      <Monogram class="h-40 w-auto text-cream drop-shadow-[0_8px_18px_rgba(0,0,0,0.18)] sm:h-52 lg:h-80" shade={0.12} />
+    </div>
+  </div>
+  <div class="flex flex-col justify-between gap-10 px-6 pb-10 pt-8 sm:px-10 lg:items-end lg:py-14 lg:pr-14 lg:text-right">
+    <div>
+      <h2 id="contact-heading" class="text-3xl font-bold leading-tight text-ink sm:text-4xl lg:max-w-xl">{site.closingHeadline}</h2>
+      {site.closingText && <p class="prose-body mt-6 text-lg lg:ml-auto lg:max-w-md">{site.closingText}</p>}
+    </div>
+    <div>
+      <p class="text-2xl font-bold uppercase tracking-wide text-ink">{site.name}</p>
+      <p class="mb-4 mt-1 font-semibold">{site.title} <span aria-hidden="true" class="px-1 text-teal">|</span> {site.locationShort ?? site.location}</p>
+      <ContactLinks email={site.email} phone={site.phone} linkedin={site.linkedin} resume={site.resume} class="lg:[&_li]:justify-end" />
+    </div>
+  </div>
+</section>

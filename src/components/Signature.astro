@@ -1,0 +1,14 @@
+---
+import Monogram from './Monogram.astro';
+// Decorative corner signature from the PDF pages. Drawn as SVG and hidden
+// from assistive tech, since the name already appears as real text.
+---
+<div aria-hidden="true" class="pointer-events-none absolute bottom-4 right-5 flex items-center gap-1.5 text-white/70 lg:bottom-6 lg:right-8">
+  <svg viewBox="0 0 80 28" class="h-7 w-auto" focusable="false">
+    <g fill="currentColor" font-family="Montserrat Variable, Montserrat, sans-serif" font-size="10.5" font-weight="600" letter-spacing="1.6" text-anchor="end">
+      <text x="80" y="11">CLAYTON</text>
+      <text x="80" y="25">GARDNER</text>
+    </g>
+  </svg>
+  <Monogram class="h-8 w-auto" shade={0.06} />
+</div>

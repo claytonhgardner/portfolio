@@ -1,0 +1,22 @@
+---
+interface Props {
+  email: string;
+  phone?: string;
+  linkedin?: string;
+  resume?: string;
+  class?: string;
+}
+const { email, phone, linkedin, resume, class: className } = Astro.props;
+const tel = phone?.replace(/[^\d+]/g, '');
+const external = { target: '_blank', rel: 'noopener noreferrer' };
+---
+<ul class:list={['space-y-1 text-base font-medium', className]}>
+  <li><a class="underline decoration-ink/30 hover:decoration-ink" href={`mailto:${email}`}>{email}</a></li>
+  {phone && <li><a class="underline decoration-ink/30 hover:decoration-ink" href={`tel:${tel}`}>{phone}</a></li>}
+  {(linkedin || resume) && (
+    <li class="flex flex-wrap gap-x-5 gap-y-1 pt-3 font-semibold">
+      {linkedin && <a class="underline decoration-ink/30 hover:decoration-ink" href={linkedin} {...external}>LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>}
+      {resume && <a class="underline decoration-ink/30 hover:decoration-ink" href={resume} {...external}>Resume<span class="sr-only"> (opens in a new tab)</span></a>}
+    </li>
+  )}
+</ul>

@@ -1,0 +1,46 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Signature from './Signature.astro';
+interface Props { site: CollectionEntry<'site'>['data'] }
+const { site } = Astro.props;
+---
+<section id="about" class="sheet grid lg:grid-cols-[1.4fr_1fr]" aria-labelledby="about-heading">
+  <h2 id="about-heading" class="sr-only">About</h2>
+  <div class="chevron-frame min-w-0">
+    <div class="chevron flex h-full flex-col gap-8 bg-cream px-5 py-8 sm:px-8 lg:py-12 lg:pl-12">
+      <p class="rounded-2xl bg-teal px-6 py-6 text-base leading-relaxed text-cream sm:px-8">{site.bio}</p>
+      {site.headline.length > 0 && (
+        <p class="text-2xl leading-tight text-ink sm:text-3xl lg:text-4xl">
+          {site.headline.map((h) => (
+            <span class="block">
+              <strong class="font-extrabold uppercase">{h.strong}</strong>
+              {h.rest && <span class="font-semibold"> {h.rest}</span>}
+            </span>
+          ))}
+        </p>
+      )}
+      {site.capabilities.length > 0 && (
+        <div class="rounded-2xl bg-teal px-6 py-6 text-cream sm:px-8">
+          <h3 class="text-lg font-bold">Core Capabilities</h3>
+          <ul class="mt-3 grid gap-x-6 gap-y-1.5 text-base sm:grid-cols-2">
+            {site.capabilities.map((c) => <li class="flex gap-2"><span aria-hidden="true">◦</span>{c}</li>)}
+          </ul>
+        </div>
+      )}
+    </div>
+  </div>
+  <div class="px-6 pb-20 pt-8 sm:px-10 lg:py-12 lg:pl-4 lg:pr-12">
+    <h3 class="text-2xl font-bold text-ink">Tools <span class="text-teal">&amp;</span> Expertise</h3>
+    <div class="mt-6 grid gap-6 sm:grid-cols-3 lg:grid-cols-1">
+      {site.skillGroups.map((g) => (
+        <div>
+          <h4 class="text-base font-bold text-ink">{g.heading}</h4>
+          <ul class="mt-1.5 space-y-1 pl-4 text-base">
+            {g.skills.map((s) => <li>{s}</li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+  <Signature />
+</section>

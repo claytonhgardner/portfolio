@@ -1,0 +1,94 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Tab from './Tab.astro';
+import Img from './Img.astro';
+import Signature from './Signature.astro';
+interface Props { project: CollectionEntry<'projects'> }
+const { project } = Astro.props;
+const p = project.data;
+const headingId = `${project.id}-title`;
+const many = p.images.length > 2;
+---
+<section id={project.id} class="space-y-6 lg:space-y-8" aria-labelledby={headingId}>
+  <div class="sheet grid lg:min-h-[34rem] lg:grid-cols-[1.35fr_1fr]">
+    <div class="chevron-frame min-w-0">
+      <div class="chevron flex h-full flex-col bg-white px-6 pt-6 lg:py-8 lg:pl-12">
+        <Tab label={p.label} />
+        <div
+          class:list={[
+            'grid flex-1 place-items-center gap-4 py-8',
+            many ? 'grid-cols-2' : 'grid-cols-1',
+          ]}
+        >
+          {p.images.map((img, i) => (
+            <Img
+              src={img.image}
+              alt={img.alt}
+              sizes={many ? '(min-width: 64rem) 22vw, 45vw' : '(min-width: 64rem) 45vw, 90vw'}
+              class:list={[
+                'h-auto max-h-[28rem] w-auto max-w-full object-contain',
+                !img.image.endsWith('.svg') && 'rounded-sm shadow-[0_6px_20px_rgba(31,61,66,0.18)]',
+                img.image.endsWith('.svg') && 'w-full max-w-md',
+              ]}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+    <div class="px-6 pb-20 pt-6 sm:px-10 lg:py-12 lg:pl-4 lg:pr-12">
+      <h2 id={headingId} class="text-3xl font-bold leading-tight text-ink sm:text-4xl">
+        {p.title}
+        {p.subtitle && <span class="block text-2xl sm:text-3xl">{p.subtitle}</span>}
+      </h2>
+      {p.tagline && <p class="mt-2 text-xl font-bold text-teal">{p.tagline}</p>}
+      <div class="mt-8 space-y-6">
+        {p.sections.map((s) => (
+          <div>
+            <h3 class="text-lg font-bold text-ink">{s.heading}</h3>
+            <p class="prose-body mt-1 sm:pl-4">{s.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+    <Signature />
+  </div>
+
+  {p.details.length > 0 && (
+    <div class="sheet">
+      <div class="chevron-frame min-w-0">
+        <div class="chevron bg-white px-6 pt-6 lg:py-8 lg:pl-12">
+          <Tab label={p.label} />
+          <div class="grid gap-x-10 gap-y-10 py-8 sm:grid-cols-2">
+            {p.details.map((d) => (
+              <div class="flex min-w-0 flex-col gap-4">
+                {d.image && (
+                  <Img
+                    src={d.image}
+                    alt={d.alt ?? ''}
+                    sizes="(min-width: 40rem) 40vw, 90vw"
+                    class="h-auto max-h-64 w-auto max-w-full self-start object-contain"
+                  />
+                )}
+                {d.colors.length > 0 && (
+                  <ul class="flex gap-3" aria-label={`${d.heading} swatches`}>
+                    {d.colors.map((c) => (
+                      <li class="h-16 w-16 rounded-2xl border border-ink/10" style={`background:${c}`}>
+                        <span class="sr-only">{c}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <div>
+                  <h3 class="text-lg font-bold text-ink">{d.heading}</h3>
+                  {d.text && <p class="prose-body mt-1 sm:pl-4">{d.text}</p>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div class="h-10 lg:hidden" />
+      <Signature />
+    </div>
+  )}
+</section>

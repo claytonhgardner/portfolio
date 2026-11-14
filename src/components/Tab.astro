@@ -1,0 +1,14 @@
+---
+import Monogram from './Monogram.astro';
+interface Props {
+  label: string;
+  /** Render as a heading when the label is the section's title */
+  as?: 'p' | 'h2';
+  id?: string;
+}
+const { label, as: Tag = 'p', id } = Astro.props;
+---
+<Tag id={id} class="relative -ml-6 inline-flex self-start items-center gap-2.5 rounded-r-xl bg-teal py-2 pl-6 pr-5 text-sm font-semibold uppercase tracking-[0.12em] text-cream ring-[5px] ring-cream sm:text-base lg:-ml-12 lg:pl-12">
+  <Monogram class="h-6 w-auto shrink-0 text-cream" />
+  <span>{label}</span>
+</Tag>
