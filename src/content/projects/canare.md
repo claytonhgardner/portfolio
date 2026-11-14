@@ -1,5 +1,5 @@
 ---
-title: Canarezzz
+title: Canare
 order: 10
 hidden: false
 layout: case-study
